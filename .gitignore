@@ -1,0 +1,8 @@
+.DS_Store
+**/.DS_Store
+node_modules
+dist
+# materiale social, non fa parte del sito
+Facebook
+GoogleBusiness
+.claude
