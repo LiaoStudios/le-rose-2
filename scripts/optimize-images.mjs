@@ -12,6 +12,8 @@ const GB = path.join(ROOT, 'GoogleBusiness')
 
 const fb = (n) => path.join(FB, `lerose2_facebook_${String(n).padStart(2, '0')}.jpg`)
 const gb = (n) => path.join(GB, `lerose2_google_${String(n).padStart(2, '0')}.jpg`)
+// foto nuove fornite dal cliente (ottobre 2026)
+const fc = (name) => path.join(ROOT, 'FotoCliente', `${name}.jpg`)
 
 const OUT = path.resolve('public/images')
 
@@ -66,10 +68,46 @@ const SELECTION = [
   // --- Dessert ---
   { src: gb(61), cat: 'dessert', name: 'dolce' },
   { src: gb(93), cat: 'dessert', name: 'cheesecake' },
+
+  // --- Foto del cliente: piatti ---
+  { src: fc('spaghetti-scoglio-gamberoni'), cat: 'fish', name: 'scoglio-gamberoni' },
+  { src: fc('spaghetti-scoglio-nuovo'), cat: 'fish', name: 'scoglio-piatto' },
+  { src: fc('orata-acqua-pazza'), cat: 'fish', name: 'orata-acqua-pazza' },
+  { src: fc('fritto-misto-cestino'), cat: 'fish', name: 'frittura-cestino' },
+  { src: fc('frittura-nido'), cat: 'fish', name: 'frittura-nido' },
+  { src: fc('grigliata-pesce-mista'), cat: 'fish', name: 'grigliata-mare', cropBottom: 0.08 },
+  { src: fc('spiedini-calamari'), cat: 'fish', name: 'spiedini-calamari', cropBottom: 0.16 },
+  { src: fc('branzino-griglia-alto'), cat: 'fish', name: 'branzino-griglia' },
+  { src: fc('orata-griglia'), cat: 'fish', name: 'orata-griglia' },
+  { src: fc('insalata-mare-blu'), cat: 'fish', name: 'insalata-mare' },
+  { src: fc('insalata-mare-cestino'), cat: 'fish', name: 'insalata-mare-cestino' },
+  { src: fc('orata-cartoccio'), cat: 'fish', name: 'orata-cartoccio' },
+  { src: fc('fiorentina'), cat: 'meat', name: 'fiorentina' },
+  { src: fc('braciola-maiale'), cat: 'meat', name: 'braciola' },
+  { src: fc('bresaola-rucola'), cat: 'meat', name: 'bresaola' },
+  { src: fc('verdure-grigliate'), cat: 'contorni', name: 'verdure-grigliate' },
+  { src: fc('verdure-lesse'), cat: 'contorni', name: 'verdure-lesse' },
+  { src: fc('pizza-mista-asporto'), cat: 'pizza', name: 'mista' },
+  { src: fc('torta-nocciola'), cat: 'dessert', name: 'torta-nocciola' },
+  { src: fc('torta-pistacchio'), cat: 'dessert', name: 'torta-pistacchio' },
+  { src: fc('frutta-spiedini'), cat: 'dessert', name: 'frutta' },
+
+  // --- Foto del cliente: la cantina ---
+  { src: fc('vino-prosecco-villa-sala'), cat: 'wine', name: 'prosecco' },
+  { src: fc('vino-blanc-de-blancs-ca-ernesto'), cat: 'wine', name: 'blanc-de-blancs' },
+  { src: fc('vino-pignoletto'), cat: 'wine', name: 'pignoletto' },
+  { src: fc('vino-falanghina'), cat: 'wine', name: 'falanghina' },
+  { src: fc('vino-costa-amalfi-bianco'), cat: 'wine', name: 'amalfi-bianco' },
+  { src: fc('vino-costa-amalfi-rosso'), cat: 'wine', name: 'amalfi-rosso' },
+  { src: fc('vino-nero-davola'), cat: 'wine', name: 'nero-davola' },
+
+  // --- Foto del cliente: ricordi ---
+  { src: fc('torta-20-anni'), cat: 'memories', name: 'torta-20-anni' },
+  { src: fc('ospite-frittura'), cat: 'memories', name: 'ospite-frittura' },
 ]
 
-// Hero: pasta ai frutti di mare (immagine più grande e invitante).
-const HERO = gb(6)
+// Hero: foto verticale scelta dal cliente (ott. 2026): spaghetti allo scoglio.
+const HERO = path.join(ROOT, 'FotoCliente', 'hero-sfondo.webp')
 // Immagine per murale/brand usata anche come og-image di riserva.
 const BRAND = gb(91)
 
@@ -80,7 +118,10 @@ async function run() {
 
   let ok = 0
   let missing = 0
-  for (const { src, cat, name, cropBottom } of SELECTION) {
+  // ONLY=FotoCliente npm run images → rielabora solo le foto il cui percorso contiene ONLY
+  const only = process.env.ONLY
+  const list = only ? SELECTION.filter((s) => s.src.includes(only)) : SELECTION
+  for (const { src, cat, name, cropBottom } of list) {
     if (!existsSync(src)) {
       console.warn('MANCANTE:', src)
       missing++
@@ -104,6 +145,8 @@ async function run() {
       .webp({ quality: 78 }).toFile(`${base}-sm.webp`)
     ok++
   }
+
+  if (only) return console.log(`Fatto (solo ${only}). ${ok} immagini, ${missing} mancanti.`)
 
   // Hero (pasta ai frutti di mare) ad alta risoluzione
   if (existsSync(HERO)) {

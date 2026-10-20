@@ -3,8 +3,10 @@ import { useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Hero } from '../components/sections/Hero'
 import { Specialties } from '../components/sections/Specialties'
-import { RestaurantSplit } from '../components/sections/RestaurantSplit'
 import { Story } from '../components/sections/Story'
+import { DishStrip } from '../components/sections/DishStrip'
+import { Cantina } from '../components/sections/Cantina'
+import { Memories } from '../components/sections/Memories'
 import { Gallery } from '../components/sections/Gallery'
 import { Reviews } from '../components/sections/Reviews'
 import { Contact } from '../components/sections/Contact'
@@ -46,6 +48,8 @@ export function Home() {
       addressCountry: 'IT',
     },
     telephone: siteInfo.phone,
+    hasMenu: '/menu',
+    openingHours: 'Mo-Su 12:00-14:30, Mo-Su 19:00-23:30',
     sameAs: [siteInfo.social.facebook],
   }
 
@@ -62,10 +66,12 @@ export function Home() {
 
       <Hero />
       <Specialties />
-      <RestaurantSplit />
       <Story />
-      <Gallery />
+      <DishStrip />
+      <Cantina />
+      <Memories />
       <Reviews />
+      <Gallery />
       <Contact />
     </>
   )

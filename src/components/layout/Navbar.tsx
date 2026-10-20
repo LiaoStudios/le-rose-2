@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { ArrowLeft, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useScrollLock } from '../../lib/useScrollLock'
@@ -7,13 +7,18 @@ import { siteInfo } from '../../data/siteInfo'
 
 const leftSections = [
   { id: 'home', label: 'Home' },
-  { id: 'storia', label: 'La nostra storia' },
+  { id: 'storia', label: 'Storia' },
 ]
 const rightSections = [
-  { id: 'gallery', label: 'Gallery' },
+  { id: 'cantina', label: 'Cantina' },
   { id: 'contatti', label: 'Contatti' },
 ]
-const allSections = [...leftSections, ...rightSections]
+const allSections = [
+  ...leftSections,
+  { id: 'cantina', label: 'La cantina' },
+  { id: 'gallery', label: 'Gallery' },
+  { id: 'contatti', label: 'Contatti e prenotazioni' },
+]
 
 export function Navbar({ logoReady = true }: { logoReady?: boolean }) {
   const [scrolled, setScrolled] = useState(false)
@@ -85,8 +90,14 @@ export function Navbar({ logoReady = true }: { logoReady?: boolean }) {
           </Link>
         </div>
 
-        {/* Mobile left spacer keeps the hamburger to the right */}
-        <span className="w-7 lg:hidden" aria-hidden />
+        {/* Mobile: fuori dalla home, pulsante per tornare indietro al sito */}
+        {pathname !== '/' ? (
+          <Link to="/" aria-label="Torna al sito" className={`flex items-center gap-1.5 text-sm font-bold uppercase tracking-wider lg:hidden ${linkColor}`}>
+            <ArrowLeft size={20} /> Home
+          </Link>
+        ) : (
+          <span className="w-7 lg:hidden" aria-hidden />
+        )}
 
         {/* Center logo */}
         {Logo}
@@ -100,8 +111,6 @@ export function Navbar({ logoReady = true }: { logoReady?: boolean }) {
           ))}
           <a
             href={siteInfo.bookingUrl}
-            target="_blank"
-            rel="noopener noreferrer"
             className="rounded-full bg-red px-7 py-3 text-sm font-bold uppercase tracking-wider text-cream shadow-cta transition hover:-translate-y-0.5 hover:bg-red-deep"
           >
             Prenota
@@ -131,12 +140,12 @@ export function Navbar({ logoReady = true }: { logoReady?: boolean }) {
                 <X size={28} />
               </button>
             </div>
-            <div className="flex flex-1 flex-col justify-center gap-6 px-8">
+            <div className="flex flex-1 flex-col justify-center gap-5 px-8">
               {allSections.map((s, i) => (
                 <motion.button
                   key={s.id}
                   onClick={() => goToSection(s.id)}
-                  className="text-left font-serif text-3xl"
+                  className="text-left font-serif text-[1.7rem] leading-tight"
                   initial={{ opacity: 0, x: 30 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 + i * 0.07 }}
@@ -145,14 +154,12 @@ export function Navbar({ logoReady = true }: { logoReady?: boolean }) {
                 </motion.button>
               ))}
               <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 + allSections.length * 0.07 }}>
-                <Link to="/menu" onClick={() => setOpen(false)} className="font-serif text-3xl">
+                <Link to="/menu" onClick={() => setOpen(false)} className="font-serif text-[1.7rem]">
                   Menu
                 </Link>
               </motion.div>
               <a
                 href={siteInfo.bookingUrl}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="mt-6 rounded-full bg-red px-8 py-4 text-center text-sm font-bold uppercase tracking-wider text-cream shadow-cta"
               >
                 Prenota un tavolo

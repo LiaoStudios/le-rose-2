@@ -5,10 +5,10 @@ import { siteInfo } from '../../data/siteInfo'
 
 export function Footer() {
   return (
-    <footer className="relative bg-ink texture-wood pt-24 pb-12 text-cream">
+    <footer className="relative bg-ink texture-wood pb-28 pt-16 text-cream md:pb-12 md:pt-24">
       <div className="mx-auto max-w-7xl px-6 md:px-12">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-4">
-          <div>
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-4 md:gap-12">
+          <div className="col-span-2 md:col-span-1">
             <div className="mb-6 flex items-center gap-3">
               <LogoBadge className="h-12 w-12" />
               <span className="font-serif text-3xl font-bold uppercase">Le Rose 2</span>
@@ -24,6 +24,8 @@ export function Footer() {
               <li><Link to="/" className="transition hover:text-red">Home</Link></li>
               <li><Link to="/menu" className="transition hover:text-red">Menu</Link></li>
               <li><a href="/#storia" className="transition hover:text-red">La nostra storia</a></li>
+              <li><a href="/#cantina" className="transition hover:text-red">La cantina</a></li>
+              <li><Link to="/menu#feste" className="transition hover:text-red">Menù delle feste</Link></li>
               <li><a href="/#gallery" className="transition hover:text-red">Gallery</a></li>
               <li><a href="/#contatti" className="transition hover:text-red">Contatti</a></li>
             </ul>
@@ -39,7 +41,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div>
+          <div className="col-span-2 md:col-span-1">
             <h4 className="mb-6 text-xs font-bold uppercase tracking-widest text-gold">Contatti</h4>
             <ul className="space-y-4 font-light text-cream/70">
               <li className="flex items-start gap-3"><MapPin size={18} className="mt-0.5 shrink-0 text-red" />{siteInfo.address} · {siteInfo.cap} {siteInfo.city} ({siteInfo.province})</li>

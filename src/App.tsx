@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { Route, Routes } from 'react-router-dom'
 import { Navbar } from './components/layout/Navbar'
 import { Footer } from './components/layout/Footer'
+import { MobileActionBar } from './components/layout/MobileActionBar'
 import { Home } from './pages/Home'
 import { MenuPage } from './pages/MenuPage'
 
@@ -33,6 +34,7 @@ export default function App() {
       <Navbar />
       <AnimatedRoutes />
       <Footer />
+      <MobileActionBar />
     </>
   )
 }

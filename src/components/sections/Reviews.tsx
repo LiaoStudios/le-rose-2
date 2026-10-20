@@ -21,17 +21,17 @@ export function Reviews() {
   const r = reviews[i]
 
   return (
-    <section className="bg-beige texture-paper py-24 md:py-32">
-      <div className="mx-auto max-w-4xl px-6 md:px-12">
+    <section className="bg-cream py-16 md:py-28">
+      <div className="mx-auto max-w-4xl px-4 md:px-12">
         <SectionHeading eyebrow="Parlano di noi" title="Le recensioni dei nostri ospiti" className="mb-6" />
 
         <div className="mb-12 flex items-center justify-center gap-3">
           <Stars n={Math.round(reviewSummary.average)} />
-          <span className="font-serif text-xl">{reviewSummary.average.toFixed(1)}</span>
-          <span className="text-sm text-ink/50">· {reviewSummary.count}+ recensioni</span>
+          <span className="font-serif text-xl">{reviewSummary.average.toFixed(1).replace('.', ',')}</span>
+          <span className="text-sm text-ink/50">· {reviewSummary.count.toLocaleString('it-IT')}+ recensioni Google</span>
         </div>
 
-        <div className="relative min-h-[240px] rounded-[2rem] bg-white p-8 shadow-warm md:p-12">
+        <div className="relative min-h-[240px] rounded-[2rem] bg-white p-6 shadow-warm md:p-12">
           <Quote className="mb-4 text-red/30" size={40} />
           <AnimatePresence mode="wait">
             <motion.div

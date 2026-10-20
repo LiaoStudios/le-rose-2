@@ -1,49 +1,55 @@
 import { motion } from 'framer-motion'
+import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { SectionHeading } from '../ui/SectionHeading'
+import { HScroll } from '../ui/HScroll'
 import { fadeUp, inView, stagger } from '../../lib/motion'
 
 const specialties = [
-  { title: 'Cucina di mare', to: '/menu#pesce', img: '/images/fish/spaghetti-scoglio.webp', text: 'Pesce fresco, frutti di mare e primi che sanno di Mediterraneo.' },
-  { title: 'La nostra pizza', to: '/menu#pizze', img: '/images/pizza/diavola.webp', text: 'Impasto a lunga lievitazione e ingredienti scelti.' },
-  { title: 'Griglia di carne', to: '/menu#griglia', img: '/images/meat/grigliata-mista.webp', text: 'Tagli selezionati e grigliate miste cotte alla brace.' },
-  { title: 'Primi della tradizione', to: '/menu#primi', img: '/images/pasta/tortellini-panna.webp', text: 'Pasta fresca e classici di terra fatti come una volta.' },
+  { title: 'Cucina di mare', to: '/menu#pesce', img: '/images/fish/grigliata-pesce.webp', text: 'Frittura del Golfo, orata, branzino e crudi.' },
+  { title: 'Primi di mare', to: '/menu#primi', img: '/images/fish/scoglio-piatto.webp', text: 'Spaghetti allo scoglio, astice e vongole veraci.' },
+  { title: 'La nostra pizza', to: '/menu#pizze', img: '/images/pizza/mista.webp', text: 'Bordo alto e cotta nel forno, come da tradizione.' },
+  { title: 'Secondi di terra', to: '/menu#griglia', img: '/images/meat/fiorentina.webp', text: 'Fiorentina, braciola e tagliata alla brace.' },
 ]
 
 export function Specialties() {
   return (
-    <section className="mx-auto max-w-[1440px] px-6 py-24 md:px-12 md:py-32">
-      <SectionHeading eyebrow="Le nostre specialità" title="Il cuore de Le Rose 2" className="mb-16" />
+    <section className="py-16 md:py-28">
+      <div className="mx-auto max-w-[1440px] px-4 md:px-12">
+        <SectionHeading eyebrow="Le nostre specialità" title="Cosa si mangia da noi" className="mb-8 md:mb-14" />
+      </div>
 
+      {/* su mobile: carosello orizzontale a scatto (niente colonna lunghissima) */}
+      <HScroll className="mx-auto max-w-[1440px] snap-x snap-mandatory scroll-px-4 px-4 pb-4 md:px-12">
       <motion.div
         variants={stagger}
         initial="hidden"
         whileInView="show"
         viewport={inView}
-        className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4"
+        className="flex gap-4 md:grid md:grid-cols-2 md:gap-6 lg:grid-cols-4"
       >
         {specialties.map((s) => (
-          <motion.div key={s.title} variants={fadeUp}>
-            <Link to={s.to} className="card-organic group block overflow-hidden">
-              <div className="h-56 overflow-hidden">
-                <img
-                  src={s.img}
-                  alt={s.title}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-              </div>
-              <div className="p-7 text-center">
-                <h3 className="mb-3 font-serif text-2xl italic">{s.title}</h3>
-                <p className="mb-5 text-sm leading-relaxed text-ink/60">{s.text}</p>
-                <span className="text-xs font-bold uppercase tracking-widest text-red transition group-hover:text-red-deep">
-                  Scopri di più →
+          <motion.div key={s.title} variants={fadeUp} className="w-[72vw] max-w-[300px] shrink-0 snap-center md:w-auto md:max-w-none">
+            <Link to={s.to} className="group relative block aspect-[3/4] overflow-hidden rounded-[1.5rem] shadow-warm">
+              <img
+                src={s.img}
+                alt={s.title}
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/20 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-5 text-cream">
+                <h3 className="font-serif text-2xl italic">{s.title}</h3>
+                <p className="mt-1.5 text-sm leading-snug text-cream/80">{s.text}</p>
+                <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gold">
+                  Vedi nel menu <ArrowRight size={14} className="transition group-hover:translate-x-1" />
                 </span>
               </div>
             </Link>
           </motion.div>
         ))}
       </motion.div>
+      </HScroll>
     </section>
   )
 }

@@ -27,4 +27,5 @@ export const reviews: Review[] = [
   },
 ]
 
-export const reviewSummary = { average: 3.8, count: 2556 }
+// Scheda Google (ottobre 2026): 4,1 su circa 2.000 recensioni.
+export const reviewSummary = { average: 4.1, count: 2000 }

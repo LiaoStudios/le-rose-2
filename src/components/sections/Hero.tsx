@@ -6,12 +6,12 @@ import { siteInfo } from '../../data/siteInfo'
 
 export function Hero() {
   return (
-    <section id="home" className="relative flex h-[100svh] min-h-[600px] items-center justify-center overflow-hidden bg-cream">
+    <section id="home" className="relative flex h-[100svh] min-h-[600px] items-center justify-center overflow-hidden bg-cream pt-[14svh] md:pt-0">
       <div className="absolute inset-0 z-0">
         <img
           src="/images/fish/hero.webp"
-          alt="Pasta ai frutti di mare de Le Rose 2"
-          className="h-full w-full object-cover"
+          alt="Spaghetti allo scoglio de Le Rose 2"
+          className="h-full w-full -translate-y-[15svh] object-cover [mask-image:linear-gradient(to_bottom,#000_62%,transparent_100%)] md:translate-y-0 md:[mask-image:none] md:object-[50%_42%]"
         />
         {/* overall darken for legibility */}
         <div className="absolute inset-0 bg-ink/45" />
@@ -21,7 +21,7 @@ export function Hero() {
           style={{ background: 'radial-gradient(65% 55% at 50% 42%, rgba(36,26,21,0.6), rgba(36,26,21,0) 72%)' }}
         />
         {/* bottom fade: blends seamlessly into the cream section below */}
-        <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-cream via-cream/80 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-cream via-cream/80 to-transparent md:h-2/5" />
       </div>
 
       <div className="relative z-10 max-w-4xl px-6 text-center">
@@ -29,7 +29,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.7 }}
-          className="mb-6 inline-flex items-center gap-2 rounded-full border border-cream/30 bg-ink/20 px-5 py-2 text-sm italic text-cream backdrop-blur-sm"
+          className="mb-4 inline-flex items-center gap-2 rounded-full border border-cream/30 bg-ink/20 px-4 py-1.5 text-xs italic md:mb-6 md:px-5 md:py-2 md:text-sm text-cream backdrop-blur-sm"
         >
           <LogoBadge className="h-6 w-6" />
           Ristorante &amp; Pizzeria · Castel Maggiore
@@ -48,7 +48,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.7 }}
-          className="mx-auto mt-6 max-w-xl text-lg font-light text-cream drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]"
+          className="mx-auto mt-4 max-w-xs text-[13px] font-light leading-snug md:mt-6 md:max-w-xl md:text-lg md:leading-normal text-cream drop-shadow-[0_2px_10px_rgba(0,0,0,0.7)]"
         >
           Pesce fresco, carne alla griglia e la vera pizza: il sapore del mare e il calore della cucina di casa.
         </motion.p>
@@ -57,30 +57,33 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.7 }}
-          className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+          className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row md:mt-10 md:gap-4"
         >
           <Link
             to="/menu"
-            className="btn-organic inline-flex items-center gap-2 bg-red px-10 py-4 text-sm font-bold uppercase tracking-wider text-cream shadow-cta"
+            className="btn-organic inline-flex items-center gap-2 bg-red px-8 py-3 text-xs font-bold uppercase tracking-wider md:px-10 md:py-4 md:text-sm text-cream shadow-cta"
           >
             <UtensilsCrossed size={18} /> Scopri il Menu
           </Link>
           <a
             href={siteInfo.bookingUrl}
-            className="btn-organic inline-flex items-center gap-2 border border-cream/40 bg-cream/10 px-10 py-4 text-sm font-bold uppercase tracking-wider text-cream backdrop-blur-md hover:bg-cream/20"
+            className="btn-organic inline-flex items-center gap-2 border border-cream/60 bg-ink/30 px-8 py-3 text-xs font-bold uppercase tracking-wider md:px-10 md:py-4 md:text-sm text-cream backdrop-blur-md hover:bg-ink/45"
           >
             <CalendarHeart size={18} /> Prenota un tavolo
           </a>
         </motion.div>
       </div>
 
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-ink/50"
-        animate={{ y: [0, 8, 0] }}
-        transition={{ repeat: Infinity, duration: 1.8 }}
-      >
-        <span className="text-xs uppercase tracking-[0.3em]">Scorri</span>
-      </motion.div>
+      {/* il wrapper centra; l'animazione sta sullo span (framer-motion sovrascriverebbe il translate di Tailwind) */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-6 flex justify-center text-ink/50 md:bottom-8">
+        <motion.span
+          animate={{ y: [0, 8, 0] }}
+          transition={{ repeat: Infinity, duration: 1.8 }}
+          className="pl-[0.3em] text-xs uppercase tracking-[0.3em]"
+        >
+          Scorri
+        </motion.span>
+      </div>
     </section>
   )
 }

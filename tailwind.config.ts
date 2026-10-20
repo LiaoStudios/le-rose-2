@@ -27,6 +27,8 @@ export default {
         serif: ['Zodiak', 'Fraunces', 'Georgia', 'serif'],
         sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
         script: ['"Great Vibes"', 'cursive'],
+        // insegna retrò: titoletti, timbri e scritte scorrevoli
+        retro: ['Oswald', 'Impact', 'sans-serif'],
       },
       boxShadow: {
         warm: '0 20px 45px rgba(36, 26, 21, 0.08)',
