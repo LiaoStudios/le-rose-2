@@ -3,7 +3,7 @@ import { ArrowLeft, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useScrollLock } from '../../lib/useScrollLock'
-import { siteInfo } from '../../data/siteInfo'
+import { bookingUrl, bookingLinkProps } from '../../data/siteInfo'
 
 const leftSections = [
   { id: 'home', label: 'Home' },
@@ -110,7 +110,8 @@ export function Navbar({ logoReady = true }: { logoReady?: boolean }) {
             </button>
           ))}
           <a
-            href={siteInfo.bookingUrl}
+            href={bookingUrl}
+            {...bookingLinkProps}
             className="rounded-full bg-red px-7 py-3 text-sm font-bold uppercase tracking-wider text-cream shadow-cta transition hover:-translate-y-0.5 hover:bg-red-deep"
           >
             Prenota
@@ -159,7 +160,8 @@ export function Navbar({ logoReady = true }: { logoReady?: boolean }) {
                 </Link>
               </motion.div>
               <a
-                href={siteInfo.bookingUrl}
+                href={bookingUrl}
+            {...bookingLinkProps}
                 className="mt-6 rounded-full bg-red px-8 py-4 text-center text-sm font-bold uppercase tracking-wider text-cream shadow-cta"
               >
                 Prenota un tavolo

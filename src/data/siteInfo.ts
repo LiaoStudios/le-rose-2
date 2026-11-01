@@ -31,8 +31,10 @@ export const siteInfo = {
     { days: 'Domenica', value: '12:00 – 14:30 · 19:00 – 23:30' },
   ],
 
-  // La prenotazione avviene telefonicamente.
-  bookingUrl: 'tel:+39051712502',
+  // Prenotazione online (UP Booking di Convivier): incollare qui il link della
+  // pagina di prenotazione del locale. Finché è vuoto, il sito usa il telefono.
+  // Link copiato da UP > Impostazioni > Prenotazioni > Link di prenotazione.
+  onlineBookingUrl: 'https://res.convivier.com/reservation/ALDTDdbd8f6k-9umkZbLJ0iNtiRoDU6SFvg6nX46DRr0cqqg',
 
   social: {
     instagram: '',
@@ -41,5 +43,11 @@ export const siteInfo = {
       'https://www.google.com/search?q=Ristorante+Pizzeria+Le+Rose+2+Castel+Maggiore+Recensioni',
   },
 } as const
+
+/** Link del pulsante "Prenota": online se configurato, altrimenti telefono. */
+export const bookingUrl = siteInfo.onlineBookingUrl || siteInfo.phoneHref
+export const hasOnlineBooking = Boolean(siteInfo.onlineBookingUrl)
+/** Il sistema di prenotazione online si apre in una nuova scheda. */
+export const bookingLinkProps = hasOnlineBooking ? { target: '_blank', rel: 'noopener noreferrer' } : {}
 
 export type SiteInfo = typeof siteInfo

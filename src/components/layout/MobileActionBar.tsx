@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Phone, UtensilsCrossed, Navigation } from 'lucide-react'
+import { Phone, UtensilsCrossed, Navigation, CalendarCheck } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { siteInfo } from '../../data/siteInfo'
+import { siteInfo, hasOnlineBooking } from '../../data/siteInfo'
 
 /** Barra fissa in basso su telefono: chiama, menu, indicazioni sempre a portata di pollice. */
 export function MobileActionBar() {
@@ -23,9 +23,15 @@ export function MobileActionBar() {
       }`}
       style={{ marginBottom: 'env(safe-area-inset-bottom)' }}
     >
-      <a href={siteInfo.phoneHref} className={`${item} bg-red`}>
-        <Phone size={18} /> Chiama
-      </a>
+      {hasOnlineBooking ? (
+        <a href={siteInfo.onlineBookingUrl} target="_blank" rel="noopener noreferrer" className={`${item} bg-red`}>
+          <CalendarCheck size={18} /> Prenota
+        </a>
+      ) : (
+        <a href={siteInfo.phoneHref} className={`${item} bg-red`}>
+          <Phone size={18} /> Chiama
+        </a>
+      )}
       <Link to="/menu" className={item}>
         <UtensilsCrossed size={18} /> Menu
       </Link>

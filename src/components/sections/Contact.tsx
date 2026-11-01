@@ -1,7 +1,7 @@
-import { Phone, MapPin, Navigation, Instagram, Facebook, Clock } from 'lucide-react'
+import { Phone, MapPin, Navigation, Instagram, Facebook, Clock, CalendarCheck, ArrowUpRight } from 'lucide-react'
 import { Reveal } from '../ui/Reveal'
 import { SectionHeading } from '../ui/SectionHeading'
-import { siteInfo } from '../../data/siteInfo'
+import { siteInfo, hasOnlineBooking } from '../../data/siteInfo'
 
 // Prenotazione + contatti in un'unica sezione: meno scroll su telefono.
 export function Contact() {
@@ -11,18 +11,44 @@ export function Contact() {
     <section id="contatti" className="mx-auto max-w-6xl px-4 py-16 md:px-12 md:py-28">
       <SectionHeading eyebrow="Prenota & vieni a trovarci" title="Ci vediamo a tavola?" className="mb-10 md:mb-14" />
 
+      {/* Prenotazione online (UP Booking): compare solo quando il link è configurato in siteInfo */}
+      {hasOnlineBooking && (
+        <Reveal>
+          <div className="mb-6 flex flex-col items-center gap-5 rounded-[2rem] bg-ink texture-wood p-7 text-center text-cream shadow-warm md:mb-8 md:flex-row md:p-10 md:text-left">
+            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-red shadow-cta">
+              <CalendarCheck size={26} />
+            </span>
+            <div className="flex-1">
+              <h3 className="font-serif text-2xl md:text-3xl">Prenota online, in un minuto</h3>
+              <p className="mt-2 text-sm font-light leading-relaxed text-cream/75 md:text-base">
+                Scegli giorno, orario e numero di persone: il tavolo è tuo, a qualsiasi ora. Ricevi subito la
+                conferma via email e un promemoria prima della cena.
+              </p>
+            </div>
+            <a
+              href={siteInfo.onlineBookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-red px-8 py-4 text-sm font-bold uppercase tracking-wider text-cream shadow-cta transition hover:bg-red-deep"
+            >
+              Prenota ora <ArrowUpRight size={18} />
+            </a>
+          </div>
+        </Reveal>
+      )}
+
       <Reveal>
         <div className="grid overflow-hidden rounded-[2rem] bg-white shadow-warm md:grid-cols-2">
           <div className="flex flex-col gap-6 p-6 md:p-10">
             <a
               href={siteInfo.phoneHref}
-              className="group flex items-center gap-4 rounded-2xl bg-red p-5 text-cream shadow-cta transition hover:bg-red-deep"
+              className={`group flex items-center gap-4 rounded-2xl p-5 transition ${hasOnlineBooking ? 'border border-ink/10 text-ink hover:bg-beige' : 'bg-red text-cream shadow-cta hover:bg-red-deep'}`}
             >
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-cream/15">
+              <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${hasOnlineBooking ? 'bg-cream text-red' : 'bg-cream/15'}`}>
                 <Phone size={22} />
               </span>
               <span>
-                <span className="block text-xs font-bold uppercase tracking-widest text-cream/75">Prenota per telefono</span>
+                <span className={`block text-xs font-bold uppercase tracking-widest ${hasOnlineBooking ? 'text-ink/50' : 'text-cream/75'}`}>{hasOnlineBooking ? 'Oppure chiamaci' : 'Prenota per telefono'}</span>
                 <span className="font-retro text-2xl tracking-wide">{siteInfo.phone}</span>
               </span>
             </a>
