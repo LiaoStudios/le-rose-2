@@ -1,0 +1,13 @@
+# Deploy su Netlify (sito alla radice del dominio, quindi senza --base).
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Le pagine interne (/menu) sono gestite dal router: tutto va a index.html.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
