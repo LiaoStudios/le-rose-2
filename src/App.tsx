@@ -4,6 +4,8 @@ import { Route, Routes } from 'react-router-dom'
 import { Navbar } from './components/layout/Navbar'
 import { Footer } from './components/layout/Footer'
 import { MobileActionBar } from './components/layout/MobileActionBar'
+import { BookingModal } from './components/ui/BookingModal'
+import { BookingProvider } from './lib/booking'
 import { Home } from './pages/Home'
 import { MenuPage } from './pages/MenuPage'
 
@@ -30,11 +32,12 @@ function AnimatedRoutes() {
 
 export default function App() {
   return (
-    <>
+    <BookingProvider>
       <Navbar />
       <AnimatedRoutes />
       <Footer />
       <MobileActionBar />
-    </>
+      <BookingModal />
+    </BookingProvider>
   )
 }

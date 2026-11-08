@@ -3,7 +3,8 @@ import { Helmet } from 'react-helmet-async'
 import { Search, X, Phone } from 'lucide-react'
 import { menu, type MenuCategory, type MenuItem } from '../data/menu'
 import { wines } from '../data/wines'
-import { siteInfo, bookingUrl, bookingLinkProps } from '../data/siteInfo'
+import { siteInfo } from '../data/siteInfo'
+import { BookButton } from '../components/ui/BookButton'
 import { Feste } from '../components/sections/Feste'
 
 // La carta dei vini entra nel menu digitale come categoria a sé (prima delle bevande).
@@ -212,13 +213,9 @@ export function MenuPage() {
 
         <div className="mt-8 flex flex-col items-center gap-4 rounded-[2rem] bg-ink texture-wood p-8 text-center text-cream">
           <p className="font-script text-4xl">Hai già l'acquolina?</p>
-          <a
-            href={bookingUrl}
-            {...bookingLinkProps}
-            className="inline-flex items-center gap-2 rounded-full bg-red px-8 py-4 text-sm font-bold uppercase tracking-wider text-cream shadow-cta transition hover:bg-red-deep"
-          >
+          <BookButton className="inline-flex items-center gap-2 rounded-full bg-red px-8 py-4 text-sm font-bold uppercase tracking-wider text-cream shadow-cta transition hover:bg-red-deep">
             <Phone size={16} /> Prenota: {siteInfo.phone}
-          </a>
+          </BookButton>
         </div>
       </section>
 

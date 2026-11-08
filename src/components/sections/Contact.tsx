@@ -2,6 +2,7 @@ import { Phone, MapPin, Navigation, Instagram, Facebook, Clock, CalendarCheck, A
 import { Reveal } from '../ui/Reveal'
 import { SectionHeading } from '../ui/SectionHeading'
 import { siteInfo, hasOnlineBooking } from '../../data/siteInfo'
+import { BookButton } from '../ui/BookButton'
 
 // Prenotazione + contatti in un'unica sezione: meno scroll su telefono.
 export function Contact() {
@@ -25,14 +26,9 @@ export function Contact() {
                 conferma via email e un promemoria prima della cena.
               </p>
             </div>
-            <a
-              href={siteInfo.onlineBookingUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-red px-8 py-4 text-sm font-bold uppercase tracking-wider text-cream shadow-cta transition hover:bg-red-deep"
-            >
+            <BookButton className="inline-flex shrink-0 items-center gap-2 rounded-full bg-red px-8 py-4 text-sm font-bold uppercase tracking-wider text-cream shadow-cta transition hover:bg-red-deep">
               Prenota ora <ArrowUpRight size={18} />
-            </a>
+            </BookButton>
           </div>
         </Reveal>
       )}

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { UtensilsCrossed, CalendarHeart } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { LogoBadge } from '../ui/LogoBadge'
-import { bookingUrl, bookingLinkProps } from '../../data/siteInfo'
+import { BookButton } from '../ui/BookButton'
 
 export function Hero() {
   return (
@@ -65,13 +65,9 @@ export function Hero() {
           >
             <UtensilsCrossed size={18} /> Scopri il Menu
           </Link>
-          <a
-            href={bookingUrl}
-            {...bookingLinkProps}
-            className="btn-organic inline-flex items-center gap-2 border border-cream/60 bg-ink/30 px-8 py-3 text-xs font-bold uppercase tracking-wider md:px-10 md:py-4 md:text-sm text-cream backdrop-blur-md hover:bg-ink/45"
-          >
+          <BookButton className="btn-organic inline-flex items-center gap-2 border border-cream/60 bg-ink/30 px-8 py-3 text-xs font-bold uppercase tracking-wider md:px-10 md:py-4 md:text-sm text-cream backdrop-blur-md hover:bg-ink/45">
             <CalendarHeart size={18} /> Prenota un tavolo
-          </a>
+          </BookButton>
         </motion.div>
       </div>
 

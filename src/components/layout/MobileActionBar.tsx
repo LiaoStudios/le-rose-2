@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react'
 import { Phone, UtensilsCrossed, Navigation, CalendarCheck } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { siteInfo, hasOnlineBooking } from '../../data/siteInfo'
+import { useBooking } from '../../lib/booking'
 
 /** Barra fissa in basso su telefono: chiama, menu, indicazioni sempre a portata di pollice. */
 export function MobileActionBar() {
   const [visible, setVisible] = useState(false)
+  const { openBooking } = useBooking()
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.6)
@@ -24,9 +26,9 @@ export function MobileActionBar() {
       style={{ marginBottom: 'env(safe-area-inset-bottom)' }}
     >
       {hasOnlineBooking ? (
-        <a href={siteInfo.onlineBookingUrl} target="_blank" rel="noopener noreferrer" className={`${item} bg-red`}>
+        <button type="button" onClick={openBooking} className={`${item} bg-red`}>
           <CalendarCheck size={18} /> Prenota
-        </a>
+        </button>
       ) : (
         <a href={siteInfo.phoneHref} className={`${item} bg-red`}>
           <Phone size={18} /> Chiama

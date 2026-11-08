@@ -31,10 +31,11 @@ export const siteInfo = {
     { days: 'Domenica', value: '12:00 – 14:30 · 19:00 – 23:30' },
   ],
 
-  // Prenotazione online (UP Booking di Convivier): incollare qui il link della
-  // pagina di prenotazione del locale. Finché è vuoto, il sito usa il telefono.
-  // Link copiato da UP > Impostazioni > Prenotazioni > Link di prenotazione.
-  onlineBookingUrl: 'https://res.convivier.com/reservation/ALDTDdbd8f6k-9umkZbLJ0iNtiRoDU6SFvg6nX46DRr0cqqg',
+  // Prenotazione online: Accomodati (accomodati.app, senza commissioni).
+  // La pagina pubblica e il modulo incorporabile si gestiscono da accomodati.app/gestione
+  // (Il tuo sito > Widget). Se onlineBookingUrl è vuoto il sito usa solo il telefono.
+  onlineBookingUrl: 'https://accomodati.app/milano/pizzeria-rose-due',
+  bookingWidgetUrl: 'https://accomodati.app/widget/milano/pizzeria-rose-due?modo=prenota&fonte=sito',
 
   social: {
     instagram: '',
@@ -44,10 +45,5 @@ export const siteInfo = {
   },
 } as const
 
-/** Link del pulsante "Prenota": online se configurato, altrimenti telefono. */
-export const bookingUrl = siteInfo.onlineBookingUrl || siteInfo.phoneHref
+/** True se è configurata la prenotazione online (altrimenti i pulsanti chiamano il locale). */
 export const hasOnlineBooking = Boolean(siteInfo.onlineBookingUrl)
-/** Il sistema di prenotazione online si apre in una nuova scheda. */
-export const bookingLinkProps = hasOnlineBooking ? { target: '_blank', rel: 'noopener noreferrer' } : {}
-
-export type SiteInfo = typeof siteInfo

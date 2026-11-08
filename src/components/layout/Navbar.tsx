@@ -3,7 +3,7 @@ import { ArrowLeft, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useScrollLock } from '../../lib/useScrollLock'
-import { bookingUrl, bookingLinkProps } from '../../data/siteInfo'
+import { BookButton } from '../ui/BookButton'
 
 const leftSections = [
   { id: 'home', label: 'Home' },
@@ -109,13 +109,9 @@ export function Navbar({ logoReady = true }: { logoReady?: boolean }) {
               {s.label}
             </button>
           ))}
-          <a
-            href={bookingUrl}
-            {...bookingLinkProps}
-            className="rounded-full bg-red px-7 py-3 text-sm font-bold uppercase tracking-wider text-cream shadow-cta transition hover:-translate-y-0.5 hover:bg-red-deep"
-          >
+          <BookButton className="rounded-full bg-red px-7 py-3 text-sm font-bold uppercase tracking-wider text-cream shadow-cta transition hover:-translate-y-0.5 hover:bg-red-deep">
             Prenota
-          </a>
+          </BookButton>
         </div>
 
         {/* Mobile hamburger */}
@@ -159,13 +155,9 @@ export function Navbar({ logoReady = true }: { logoReady?: boolean }) {
                   Menu
                 </Link>
               </motion.div>
-              <a
-                href={bookingUrl}
-            {...bookingLinkProps}
-                className="mt-6 rounded-full bg-red px-8 py-4 text-center text-sm font-bold uppercase tracking-wider text-cream shadow-cta"
-              >
+              <BookButton className="mt-6 rounded-full bg-red px-8 py-4 text-center text-sm font-bold uppercase tracking-wider text-cream shadow-cta">
                 Prenota un tavolo
-              </a>
+              </BookButton>
             </div>
           </motion.div>
         )}
