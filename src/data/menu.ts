@@ -1,23 +1,21 @@
-// Dati del menu, separati dal frontend per una facile modifica.
-// Fonti: menù stampati del locale (circa 3 anni fa, fotografati dal cliente) per
-// antipasti, primi, secondi di terra e contorni, con i loro prezzi.
-// Pizze, bevande e dessert NON hanno una fonte: sono rappresentativi.
-// I piatti delle foto nuove (ott. 2026) non hanno prezzo e non lo mostrano.
-// TODO(cliente): far confermare prezzi e disponibilità attuali al titolare.
+// Menu completo di Le Rose 2, trascritto dai menù stampati fotografati dal cliente
+// (novembre 2026): tutti i piatti e tutti i prezzi sono quelli della carta.
+// Le foto dei piatti non compaiono nel menu digitale (scelta del cliente).
 
 export interface MenuItem {
   name: string
+  /** ingredienti o descrizione, così come stampati in carta */
   description?: string
-  /** vuoto = prezzo non mostrato; 's.q.' = secondo quotazione del pescato */
+  /** prezzo già formattato; 's.q.' = secondo quotazione del pescato */
   price?: string
-  allergens?: string[]
-  image?: string
   tag?: 'novità' | 'specialità' | 'vegetariano'
 }
 
 export interface MenuGroup {
   /** sottocategoria opzionale, es. Di terra / Di mare */
   label?: string
+  /** nota a margine del gruppo, es. l'aggiunta di bufala intera */
+  note?: string
   items: MenuItem[]
 }
 
@@ -25,102 +23,75 @@ export interface MenuCategory {
   id: string
   title: string
   blurb?: string
+  /** nota a piè di categoria */
+  note?: string
   groups: MenuGroup[]
 }
+
+const freschezza = 'Alcuni prodotti non sono disponibili freschi per esigenze di mercato e potrebbero essere di natura congelata.'
 
 export const menu: MenuCategory[] = [
   {
     id: 'antipasti',
     title: 'Antipasti',
     blurb: 'Dalla terra al mare, per iniziare come si deve.',
+    note: freschezza,
     groups: [
       {
         label: 'Di terra',
         items: [
-          { name: 'Salumi misti', description: 'Selezione di affettati locali.', price: '€7,00' },
-          { name: 'Prosciutto crudo', description: 'Crudo stagionato tagliato al momento.', price: '€7,00' },
-          { name: 'Prosciutto e melone', description: 'Il classico dolce-salato dell’estate.', price: '€7,50' },
-          { name: 'Prosciutto e bufala', description: 'Crudo e mozzarella di bufala campana.', price: '€9,50', image: '/images/antipasti/prosciutto-bufala.webp' },
-          { name: 'Bresaola, rucola e grana', description: 'Con zucchine grigliate e pomodorini.', image: '/images/meat/bresaola.webp' },
+          { name: 'Salumi misti', price: '€7,00' },
+          { name: 'Prosciutto crudo', price: '€7,00' },
+          { name: 'Prosciutto e melone', price: '€7,50' },
+          { name: 'Prosciutto e bufala', price: '€9,50' },
         ],
       },
       {
         label: 'Di mare',
         items: [
-          { name: 'Antipasto misto mare', description: 'Selezione di mare caldo e freddo.', price: '€12,00', image: '/images/fish/antipasto-mare.webp', tag: 'specialità' },
-          { name: 'Insalata di mare', description: 'Alici marinate, salmone, gamberetti e polpo.', image: '/images/fish/insalata-mare.webp' },
-          { name: 'Insalata di mare nel cestino', description: 'Servita nel cestino di pasta di pizza.', image: '/images/fish/insalata-mare-cestino.webp' },
-          { name: 'Polpa di granchio fantasia', description: 'Polpa di granchio con salsa e verdure.', price: '€10,00' },
-          { name: 'Cozze alla marinara', description: 'Cozze, pomodorini e prezzemolo.', price: '€10,00', image: '/images/fish/cozze.webp' },
-          { name: 'Vongole veraci alla marinara', description: 'Vongole veraci saltate, aglio e prezzemolo.', price: '€12,00' },
-          { name: 'Alici marinate', description: 'Alici fresche marinate al limone.', price: '€8,00' },
+          { name: 'Antipasto misto mare', price: '€13,00' },
+          { name: 'Cozze alla marinara', price: '€10,00' },
+          { name: 'Vongole veraci alla marinara', price: '€13,00' },
+          { name: 'Alici marinate', price: '€8,00' },
         ],
       },
     ],
   },
   {
     id: 'primi',
-    title: 'Primi',
-    blurb: 'Pasta fresca, risotti e i grandi classici di terra e di mare.',
+    title: 'Primi piatti',
+    blurb: 'Pasta, tortelli e risotti: i grandi classici di terra e di mare.',
+    note: freschezza,
     groups: [
       {
         label: 'Di terra',
         items: [
-          { name: 'Penne all’arrabbiata', description: 'Pomodoro, aglio e peperoncino.', price: '€8,00' },
-          { name: 'Orecchiette salsiccia e broccoli', description: 'Con broccoli e salsiccia saltata.', price: '€9,00' },
-          { name: 'Spaghetti alla carbonara', description: 'Uovo, guanciale e pecorino.', price: '€9,00' },
-          { name: 'Gnocchi alla sorrentina', description: 'Pomodoro, fior di latte e basilico.', price: '€9,00' },
-          { name: 'Maccheroncini panna, prosciutto e piselli', description: 'Cremosi e avvolgenti.', price: '€9,00' },
-          { name: 'Pappardelle ai porcini', description: 'Pasta fresca ai funghi porcini.', price: '€10,00', image: '/images/pasta/tagliatelle-funghi.webp' },
-          { name: 'Tortellini alla panna', description: 'Tortellini di sfoglia fresca.', price: '€10,00', image: '/images/pasta/tortellini-panna.webp' },
-          { name: 'Tortelloni al ragù', description: 'Tortelloni fatti in casa al ragù.', price: '€10,00' },
-          { name: 'Tortelloni al gorgonzola', description: 'Con crema di gorgonzola.', price: '€10,00' },
-          { name: 'Tortelloni speck e funghi', description: 'Speck croccante e funghi.', price: '€10,00' },
-          { name: 'Tagliatelle al ragù', description: 'Sfoglia fresca al ragù bolognese.', price: '€9,00' },
-          { name: 'Tagliatelle speck e funghi', description: 'Con speck e funghi trifolati.', price: '€10,00' },
-          { name: 'Gramigna alla salsiccia', description: 'Il classico primo emiliano.', price: '€9,00' },
-          { name: 'Risotto alla valdostana', description: '4 formaggi e speck.', price: '€10,00' },
-          { name: 'Risotto ai funghi porcini', description: 'Mantecato ai porcini.', price: '€10,00' },
-          { name: 'Spaghetti Vesuvio', description: 'Pomodorini, bufala e peperoncino.', price: '€10,00' },
+          { name: 'Penne all’arrabbiata', price: '€7,00' },
+          { name: 'Orecchiette salsiccia e broccoli', price: '€8,50' },
+          { name: 'Spaghetti alla carbonara', price: '€8,00' },
+          { name: 'Pappardelle ai porcini', price: '€10,00' },
+          { name: 'Tortellini alla panna o ragù', price: '€9,00' },
+          { name: 'Tortelloni al ragù o gorgonzola', price: '€9,00' },
+          { name: 'Tortelloni speck e funghi', price: '€9,00' },
+          { name: 'Tagliatelle al ragù', price: '€8,00' },
+          { name: 'Tagliatelle speck e funghi', price: '€8,00' },
+          { name: 'Gramigna alla salsiccia', price: '€8,00' },
+          { name: 'Risotto alla valdostana', description: '4 formaggi e speck', price: '€10,00' },
+          { name: 'Spaghetti Vesuvio', description: 'Pomodorini, bufala e peperoncino', price: '€10,00' },
         ],
       },
       {
         label: 'Di mare',
         items: [
-          { name: 'Spaghetti allo scoglio', description: 'Cozze, vongole, gamberoni e pomodorino.', price: '€14,00', image: '/images/fish/scoglio-gamberoni.webp', tag: 'specialità' },
-          { name: 'Spaghetti all’astice', description: 'Astice fresco e pomodoro.', price: '€18,00', image: '/images/fish/spaghetti-astice.webp', tag: 'specialità' },
-          { name: 'Spaghetti alle vongole veraci', description: 'Vongole veraci, aglio e prezzemolo.', price: '€12,00' },
-          { name: 'Spaghetti al tonno', description: 'Tonno, pomodoro e olive.', price: '€8,50' },
-          { name: 'Tagliolini al salmone e caviale', description: 'Cremosi con salmone e caviale.', price: '€10,00' },
-          { name: 'Risotto con polpa di granchio e pesce spada', description: 'Mantecato terra e mare.', price: '€10,00' },
-          { name: 'Strozzapreti ai gamberetti', description: 'Con gamberetti e pomodorino.', price: '€10,00' },
-          { name: 'Rigatoni con gamberoni e cozze', description: 'Gamberoni, cozze e sughetto.', price: '€12,00', image: '/images/fish/pasta-mare.webp' },
-          { name: 'Risotto alla pescatora', description: 'Risotto ai frutti di mare.', price: '€13,00' },
-          { name: 'Gnocchetti terra e mare', description: 'Cime di rapa e vongole.', price: '€10,00', image: '/images/fish/gnocchi-vongole.webp' },
-          { name: 'Calamarata vietrese', price: '€14,00' },
-          { name: 'Paccheri mare e monti', description: 'Cozze, vongole e porcini.', price: '€12,00' },
-          { name: 'Scialatielli anem e core', price: '€14,00' },
-        ],
-      },
-    ],
-  },
-  {
-    id: 'pesce',
-    title: 'Pesce',
-    blurb: 'Il pescato del giorno, alla griglia, al forno o in frittura.',
-    groups: [
-      {
-        items: [
-          { name: 'Grigliata mista di pesce', description: 'Orata, pesce spada, gamberone e spiedino.', price: 's.q.', image: '/images/fish/grigliata-mare.webp', tag: 'specialità' },
-          { name: 'Frittura del Golfo', description: 'Calamari, gamberi e paranza su nido di spaghetti croccanti.', price: 's.q.', image: '/images/fish/frittura-nido.webp', tag: 'specialità' },
-          { name: 'Frittura nel cestino', description: 'Frittura mista e zucchine nel cestino di pizza.', price: 's.q.', image: '/images/fish/frittura-cestino.webp' },
-          { name: 'Orata all’acqua pazza', description: 'Con gamberoni, pomodorini e prezzemolo.', price: 's.q.', image: '/images/fish/orata-acqua-pazza.webp' },
-          { name: 'Branzino alla griglia', description: 'Con radicchio, zucchine e verdure alla brace.', price: 's.q.', image: '/images/fish/branzino-griglia.webp' },
-          { name: 'Orata alla griglia', description: 'Semplice, con limone e insalata.', price: 's.q.', image: '/images/fish/orata-griglia.webp' },
-          { name: 'Orata al cartoccio', description: 'Cotta al forno con patate.', price: 's.q.', image: '/images/fish/orata-cartoccio.webp' },
-          { name: 'Spiedini di calamari gratinati', description: 'Panatura alle erbe, rucola e pomodoro.', price: 's.q.', image: '/images/fish/spiedini-calamari.webp' },
-          { name: 'Gamberoni alla griglia', description: 'Gamberoni freschi appena scottati.', price: 's.q.' },
-          { name: 'Pesce spada alla griglia', description: 'Trancio di spada con rucola e limone.', price: 's.q.' },
+          { name: 'Spaghetti allo scoglio', price: '€14,00', tag: 'specialità' },
+          { name: 'Spaghetti alle vongole veraci', price: '€12,00' },
+          { name: 'Spaghetti al tonno', price: '€10,00' },
+          { name: 'Tagliolini al salmone e caviale', price: '€12,00' },
+          { name: 'Strozzapreti ai gamberetti', price: '€12,00' },
+          { name: 'Rigatoni con gamberoni e cozze', price: '€14,00' },
+          { name: 'Risotto alla pescatora', price: '€13,00' },
+          { name: 'Gnocchetti terra e mare', description: 'Cime di rapa e vongole', price: '€12,00' },
+          { name: 'Paccheri mare e monti', description: 'Cozze, vongole e porcini', price: '€14,00' },
         ],
       },
     ],
@@ -132,24 +103,58 @@ export const menu: MenuCategory[] = [
     groups: [
       {
         items: [
-          { name: 'Fiorentina', description: 'Alla brace, con rucola, carote e pomodoro.', image: '/images/meat/fiorentina.webp', tag: 'specialità' },
           { name: 'Bistecca ai ferri', price: '€7,50' },
-          { name: 'Bistecca alla pizzaiola', price: '€8,50' },
-          { name: 'Scaloppine ai funghi o al limone', price: '€7,50' },
-          { name: 'Scaloppine ai funghi porcini', price: '€10,00' },
-          { name: 'Braciola di maiale', price: '€7,50', image: '/images/meat/braciola.webp' },
+          { name: 'Scaloppine ai funghi', price: '€7,50' },
+          { name: 'Scaloppine al limone', price: '€7,50' },
+          { name: 'Braciola di maiale', price: '€7,50' },
           { name: 'Salsiccia ai ferri', price: '€7,50' },
-          { name: 'Costata di manzo', price: '€14,00' },
-          { name: 'Filetto ai ferri', price: '€16,00' },
-          { name: 'Filetto al pepe verde', price: '€18,00' },
-          { name: 'Grigliata mista di carne', price: '€10,00', image: '/images/meat/grigliata-mista.webp' },
           { name: 'Cotoletta alla milanese', price: '€7,50' },
-          { name: 'Cotoletta alla bolognese', price: '€10,00' },
-          { name: 'Spiedini misti di carne', price: '€7,50' },
-          { name: 'Carpaccio con rucola e grana', price: '€12,00', image: '/images/meat/bresaola.webp' },
-          { name: 'Omelette con formaggio e prosciutto', price: '€7,00' },
-          { name: 'Mozzarella ripiena', price: '€8,50' },
-          { name: 'Tagliata di manzo', description: 'Con rucola e scaglie di grana.', image: '/images/meat/tagliata.webp' },
+          { name: 'Spiedini di carne', price: '€8,50' },
+          { name: 'Grigliata mista di carne', price: '€12,00' },
+          { name: 'Cotoletta alla bolognese', price: '€12,00' },
+          { name: 'Carpaccio con rucola e grana', price: '€15,00' },
+          { name: 'Costata di manzo', price: '€16,00' },
+          { name: 'Filetto ai ferri', price: '€18,00' },
+          { name: 'Filetto al pepe verde', price: '€20,00' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'pesce',
+    title: 'Secondi di mare',
+    blurb: 'Il pescato del giorno, alla griglia, al forno o in frittura.',
+    note: freschezza,
+    groups: [
+      {
+        items: [
+          { name: 'Pesce fresco del giorno', description: 'Chiedi in sala cosa c’è oggi', price: 's.q.' },
+          { name: 'Grigliata mista di pesce', price: '€22,00', tag: 'specialità' },
+          { name: 'Orata Amalfitana', price: '€22,00' },
+          { name: 'Orata all’acqua pazza', price: '€20,00' },
+          { name: 'Gamberoni alla griglia', price: '€18,00' },
+          { name: 'Spigola al cartoccio', price: '€18,00' },
+          { name: 'Frittura mista o frittura del Golfo', price: '€15,00', tag: 'specialità' },
+          { name: 'Orata o branzino', description: 'Alla griglia', price: '€14,00' },
+          { name: 'Pesce spada alla griglia o gratinato', price: '€14,00' },
+          { name: 'Spiedini misti', price: '€14,00' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'insalatone',
+    title: 'Insalatone',
+    blurb: 'Fresche e abbondanti, per chi vuole stare leggero.',
+    groups: [
+      {
+        items: [
+          {
+            name: 'Vecchia Parma',
+            description: 'Insalata iceberg, radicchio julienne, prosciutto crudo a listarelle, scaglie di grana, glassa di aceto balsamico',
+            price: '€10,00',
+          },
+          { name: 'Texana', description: 'Insalata iceberg, tonno, fagioli, cipolla', price: '€9,00' },
         ],
       },
     ],
@@ -157,27 +162,65 @@ export const menu: MenuCategory[] = [
   {
     id: 'pizze',
     title: 'Pizze',
-    blurb: 'Impasto a lunga lievitazione, pomodoro e fior di latte.',
+    blurb: 'Dalla Margherita alle speciali della casa.',
     groups: [
       {
-        label: 'Classiche',
+        label: 'Pizze speciali',
+        note: 'Aggiunta di bufala intera €7,00',
         items: [
-          { name: 'Margherita', description: 'Pomodoro, fior di latte e basilico.', price: '€6,00', image: '/images/pizza/pomodorini.webp' },
-          { name: 'Marinara', description: 'Pomodoro, aglio, origano e olio EVO.', price: '€5,50' },
-          { name: 'Napoli', description: 'Pomodoro, mozzarella, acciughe e capperi.', price: '€7,50' },
-          { name: 'Diavola', description: 'Pomodoro, mozzarella e salame piccante.', price: '€8,00', image: '/images/pizza/diavola.webp' },
-          { name: 'Prosciutto e funghi', description: 'Pomodoro, mozzarella, prosciutto cotto e funghi.', price: '€8,50', image: '/images/pizza/prosciutto.webp' },
-          { name: 'Capricciosa', description: 'Prosciutto, funghi, carciofi e olive.', price: '€9,00' },
+          { name: 'Pizza Bologna', description: 'Mozzarella, stracchino, mortadella, noci', price: '€10,00' },
+          { name: 'Pizza Modena', description: 'Mozzarella, radicchio, pancetta, scaglie di grana, glassa di aceto balsamico', price: '€10,00' },
+          { name: 'Ortolana', description: 'Pomodoro, mozzarella, melanzane, peperoni, patate, zucchine al forno', price: '€10,00' },
+          { name: 'Calzone Napoli', description: 'Pomodoro, mozzarella, salame piccante, ricotta, pepe', price: '€10,00' },
+          { name: 'Pizza Lucia', description: 'Pomodoro, bufala, pomodorini, basilico, cornicione ripieno di ricotta', price: '€10,00' },
+          { name: 'Sfiziosa', description: 'Mozzarella, pomodorini, stracciatella, acciughe, basilico', price: '€10,00' },
+          { name: 'Aurora', description: 'Crema di formaggi, mozzarella, spinaci, pancetta, noci', price: '€10,00' },
+          { name: 'Pizza con bufala intera', price: '€13,00' },
         ],
       },
       {
-        label: 'Speciali',
+        label: 'Le nostre pizze',
+        note: 'Aggiunta di bufala intera €7,00',
         items: [
-          { name: 'Quattro formaggi', description: 'Mozzarella, gorgonzola, grana e provola.', price: '€9,00', image: '/images/pizza/margherita.webp' },
-          { name: 'Ortolana', description: 'Verdure grigliate di stagione.', price: '€9,00', image: '/images/pizza/melanzane.webp', tag: 'vegetariano' },
-          { name: 'Bufala e crudo', description: 'Bufala, prosciutto crudo e rucola.', price: '€10,00' },
-          { name: 'Le Rose', description: 'La nostra pizza speciale della casa.', price: '€12,00', image: '/images/pizza/gourmet.webp', tag: 'specialità' },
-          { name: 'Metà e metà', description: 'Due gusti sulla stessa pizza: chiedi pure in sala.', image: '/images/pizza/mista.webp' },
+          { name: 'Margherita', description: 'Pomodoro e mozzarella', price: '€6,00' },
+          { name: 'Saracena', description: 'Pomodoro, mozzarella, origano', price: '€8,00' },
+          { name: 'Funghi', description: 'Pomodoro, mozzarella, funghi', price: '€7,00' },
+          { name: 'Prosciutto', description: 'Pomodoro, mozzarella, prosciutto', price: '€7,00' },
+          { name: 'Regina', description: 'Mozzarella, provola, speck', price: '€8,50' },
+          { name: 'Melanzane', description: 'Pomodoro, mozzarella, melanzane', price: '€8,00' },
+          { name: 'Salsiccia', description: 'Pomodoro, mozzarella, salsiccia', price: '€7,50' },
+          { name: 'Speck', description: 'Pomodoro, mozzarella, speck', price: '€7,50' },
+          { name: 'Wurstel', description: 'Pomodoro, mozzarella, wurstel', price: '€7,00' },
+          { name: 'Radicchio', description: 'Pomodoro, mozzarella, radicchio', price: '€7,00' },
+          { name: 'Gorgonzola', description: 'Pomodoro, mozzarella, gorgonzola', price: '€8,00' },
+          { name: 'Prosciutto e funghi', description: 'Pomodoro, mozzarella, prosciutto, funghi', price: '€7,50' },
+          { name: 'Prosciutto e salsiccia', description: 'Pomodoro, mozzarella, prosciutto, salsiccia', price: '€7,50' },
+          { name: 'Funghi e salsiccia', description: 'Pomodoro, mozzarella, funghi, salsiccia', price: '€7,50' },
+          { name: 'Tonno e cipolla', description: 'Pomodoro, mozzarella, tonno, cipolla', price: '€8,50' },
+          { name: 'Salsiccia e friarielli', description: 'Mozzarella, salsiccia e friarielli (senza pomodoro)', price: '€8,50' },
+          { name: 'Verdure grigliate', description: 'Pomodoro, mozzarella, verdure grigliate', price: '€8,50' },
+          { name: 'Diavola', description: 'Pomodoro, mozzarella, salame piccante', price: '€8,00' },
+          { name: 'Funghi porcini', description: 'Pomodoro, mozzarella, funghi porcini', price: '€9,00' },
+          { name: 'Pugliese', description: 'Pomodoro, mozzarella, cipolla', price: '€7,00' },
+          { name: 'Tirolese', description: 'Pomodoro, mozzarella, funghi, speck', price: '€8,50' },
+          { name: 'Contadina', description: 'Pomodoro, mozzarella, salame piccante, salsiccia, cipolla', price: '€8,50' },
+          { name: '4 Stagioni', description: 'Pomodoro, mozzarella, funghi, prosciutto, salsiccia, carciofi', price: '€8,50' },
+          { name: 'Capricciosa', description: 'Pomodoro, mozzarella, prosciutto, carciofi, funghi', price: '€8,00' },
+          { name: 'Napoletana', description: 'Pomodoro, mozzarella, acciughe, origano', price: '€7,00' },
+          { name: 'Romana', description: 'Pomodoro, mozzarella, acciughe, capperi, origano', price: '€7,00' },
+          { name: 'Siciliana', description: 'Pomodoro, acciughe, capperi, olive, origano', price: '€7,00' },
+          { name: '4 Formaggi', description: 'Pomodoro, mozzarella, gorgonzola, pecorino, emmental, grana', price: '€8,50' },
+          { name: 'Italia', description: 'Pomodoro, mozzarella, speck, rucola, grana', price: '€8,50' },
+          { name: 'Calzone N.', description: 'Pomodoro, mozzarella, prosciutto', price: '€7,50' },
+          { name: 'Calzone farcito', description: 'Pomodoro, mozzarella, prosciutto, funghi, carciofi', price: '€8,50' },
+          { name: 'Le Rose 2', description: 'Pomodoro, mozzarella, carciofi, prosciutto, peperoni, wurstel, olive', price: '€8,50', tag: 'specialità' },
+          { name: 'Valdostana', description: 'Pomodoro, mozzarella, prosciutto, funghi, formaggi', price: '€8,50' },
+          { name: 'Atomica', description: 'Pomodoro, mozzarella, prosciutto, funghi, carciofi, salsiccia, uovo, grana', price: '€9,00' },
+          { name: 'Montanara', description: 'Pomodoro, mozzarella, wurstel, pancetta, cipolla', price: '€8,50' },
+          { name: 'Mike', description: 'Pomodoro, mozzarella, speck, melanzana, grana', price: '€8,50' },
+          { name: 'Speciale', description: 'Pomodoro, mozzarella, bufala, salame piccante, salsiccia', price: '€9,50' },
+          { name: 'Frutti di mare', description: 'Pomodoro, frutti di mare', price: '€11,00' },
+          { name: 'Frutti di mare con mozzarella', description: 'Con aggiunta di mozzarella', price: '€12,00' },
         ],
       },
     ],
@@ -188,34 +231,70 @@ export const menu: MenuCategory[] = [
     groups: [
       {
         items: [
-          { name: 'Patatine fritte', price: '€3,00' },
-          { name: 'Insalata mista', price: '€3,50' },
-          { name: 'Verdure alla griglia', price: '€4,50', image: '/images/contorni/verdure-grigliate.webp', tag: 'vegetariano' },
-          { name: 'Melanzane al sugo', price: '€3,50', tag: 'vegetariano' },
-          { name: 'Verdure lesse varie', price: '€3,50', image: '/images/contorni/verdure-lesse.webp', tag: 'vegetariano' },
-          { name: 'Verdure dello Chef', price: '€5,00', tag: 'vegetariano' },
+          { name: 'Patatine fritte', price: '€3,50' },
+          { name: 'Insalata mista', price: '€4,00' },
+          { name: 'Verdure alla griglia', price: '€4,50' },
+          { name: 'Melanzane al sugo', price: '€4,50' },
+          { name: 'Verdure lesse varie', price: '€4,50' },
+          { name: 'Verdure dello Chef', price: '€6,00' },
         ],
       },
     ],
   },
   {
     id: 'dessert',
-    title: 'Dessert',
-    blurb: 'Dolci della tradizione napoletana e non solo.',
+    title: 'Dolci',
+    blurb: 'Le nostre dolcezze, fatte per chiudere in bellezza.',
     groups: [
       {
+        label: 'Da scegliere',
         items: [
-          { name: 'Torta al pistacchio', description: 'Con crema di pistacchio e granella.', image: '/images/dessert/torta-pistacchio.webp' },
-          { name: 'Torta alla nocciola', description: 'Crema alla ricotta, nocciole e cioccolato.', image: '/images/dessert/torta-nocciola.webp' },
-          { name: 'Spiedini di frutta fresca', description: 'Frutta di stagione, d’estate.', image: '/images/dessert/frutta.webp' },
-          { name: 'Tiramisù al mascarpone', price: '€5,00' },
-          { name: 'Pastiera napoletana', description: 'Grano, ricotta e cubetti d’arancia.', price: '€5,00' },
-          { name: 'Delizia d’Amalfi al limone', description: 'Pan di babà con crema al limone.', price: '€5,50', image: '/images/dessert/dolce.webp', tag: 'specialità' },
-          { name: 'Cheesecake', description: 'Ai frutti di bosco.', price: '€5,50', image: '/images/dessert/cheesecake.webp' },
-          { name: 'Cassata siciliana', description: 'Ricotta, frutta candita e cioccolato.', price: '€5,00' },
-          { name: 'Profiterol al cioccolato', price: '€5,00' },
-          { name: 'Torta ricotta e pera', price: '€5,00' },
-          { name: 'Tartufo artigianale', description: 'Bianco o nero.', price: '€4,50' },
+          { name: 'Dolci della casa', description: 'Chiedi in sala quelli di oggi', price: '€6,00' },
+          { name: 'Tris di dolci', description: 'Tre assaggi a scelta', price: '€9,00' },
+          { name: 'Sorbetto', description: 'Limone o caffè', price: '€4,00' },
+        ],
+      },
+      {
+        label: 'Le nostre dolcezze',
+        items: [
+          { name: 'Babà al rhum' },
+          { name: 'Profiterol', description: 'Latte o fondente' },
+          { name: 'Delizia al limone' },
+          { name: 'Torta ricotta e pera' },
+          { name: 'Tartufo bianco o nero', description: 'Su richiesta affogato' },
+          { name: 'Tiramisù' },
+          { name: 'Zuppa inglese' },
+          { name: 'Pastiera napoletana' },
+          { name: 'Cheesecake', description: 'Frutti di bosco, pistacchio o caramello' },
+          { name: 'Gelato alla crema' },
+          { name: 'Sorbetto al limone o caffè' },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'vini',
+    title: 'Vini',
+    blurb: 'La carta dei vini in bottiglia. Alla spina trovi anche il vino della casa.',
+    groups: [
+      {
+        label: 'Bianchi',
+        items: [
+          { name: 'Pignoletto', price: '€12,00' },
+          { name: 'Pecorino', price: '€14,00' },
+          { name: 'Passerina', price: '€14,00' },
+          { name: 'Prosecco', price: '€15,00' },
+          { name: 'Falanghina', price: '€18,00' },
+        ],
+      },
+      {
+        label: 'Rossi',
+        items: [
+          { name: 'Chianti', price: '€14,00' },
+          { name: 'Sangiovese', price: '€14,00' },
+          { name: 'Lambrusco', price: '€14,00' },
+          { name: 'Primitivo biologico', price: '€18,00' },
+          { name: 'Aglianico', price: '€18,00' },
         ],
       },
     ],
@@ -225,22 +304,30 @@ export const menu: MenuCategory[] = [
     title: 'Bevande',
     groups: [
       {
-        label: 'Vini & birre',
+        label: 'Da bere',
         items: [
-          { name: 'Vino della casa (½ l)', price: '€6,00' },
-          { name: 'Vino in bottiglia', description: 'Carta dei vini disponibile in sala.', price: 'da €12,00' },
-          { name: 'Birra media', price: '€4,50' },
+          { name: 'Acqua in bottiglia di vetro 1 l', price: '€2,00' },
+          { name: 'Acqua in bottiglia di plastica 1,5 l', price: '€2,00' },
+          { name: 'Birra piccola', price: '€3,00' },
+          { name: 'Birra media', price: '€4,00' },
+          { name: 'Birra da 66 cl', price: '€4,00' },
+          { name: 'Coca-Cola piccola', price: '€3,00' },
+          { name: 'Coca-Cola media', price: '€3,50' },
+          { name: 'Bibita in lattina', price: '€3,00' },
+          { name: 'Vino alla spina ½ l', price: '€4,00' },
+          { name: 'Vino alla spina 1 l', price: '€8,00' },
         ],
       },
       {
-        label: 'Analcoliche',
+        label: 'Caffè e amari',
         items: [
-          { name: 'Acqua (½ l / 1 l)', price: '€1,50 / €2,50' },
-          { name: 'Bibite', price: '€3,00' },
-          { name: 'Caffè', price: '€1,50' },
-          { name: 'Limoncello / Amari', price: '€3,00' },
+          { name: 'Caffè', price: '€2,00' },
+          { name: 'Amari', price: '€3,50' },
         ],
       },
     ],
   },
 ]
+
+/** coperto a persona, come da carta */
+export const coperto = '€1,50'

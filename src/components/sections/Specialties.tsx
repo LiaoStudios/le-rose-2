@@ -6,10 +6,10 @@ import { HScroll } from '../ui/HScroll'
 import { fadeUp, inView, stagger } from '../../lib/motion'
 
 const specialties = [
-  { title: 'Cucina di mare', to: '/menu#pesce', img: '/images/fish/grigliata-pesce.webp', text: 'Frittura del Golfo, orata, branzino e crudi.' },
-  { title: 'Primi di mare', to: '/menu#primi', img: '/images/fish/scoglio-piatto.webp', text: 'Spaghetti allo scoglio, astice e vongole veraci.' },
+  { title: 'Cucina di mare', to: '/menu#pesce', img: '/images/fish/grigliata-pesce.webp', text: 'Frittura del Golfo, orata, spigola e gamberoni alla griglia.' },
+  { title: 'Primi di mare', to: '/menu#primi', img: '/images/fish/scoglio-piatto.webp', text: 'Spaghetti allo scoglio, paccheri e vongole veraci.' },
   { title: 'La nostra pizza', to: '/menu#pizze', img: '/images/pizza/mista.webp', text: 'Bordo alto e cotta nel forno, come da tradizione.' },
-  { title: 'Secondi di terra', to: '/menu#griglia', img: '/images/meat/fiorentina.webp', text: 'Fiorentina, braciola e tagliata alla brace.' },
+  { title: 'Secondi di terra', to: '/menu#griglia', img: '/images/meat/fiorentina.webp', text: 'Costata, filetto e grigliata mista alla brace.' },
 ]
 
 export function Specialties() {

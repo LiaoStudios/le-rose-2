@@ -1,26 +1,26 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { Search, X, Phone } from 'lucide-react'
-import { menu, type MenuCategory, type MenuItem } from '../data/menu'
-import { wines } from '../data/wines'
+import { Search, X, Phone, UtensilsCrossed, Wheat, Beef, Fish, Salad, Pizza, Carrot, CakeSlice, Wine, Coffee, type LucideIcon } from 'lucide-react'
+import { menu, coperto, type MenuCategory, type MenuItem } from '../data/menu'
 import { siteInfo } from '../data/siteInfo'
 import { BookButton } from '../components/ui/BookButton'
 import { Feste } from '../components/sections/Feste'
+import { Gruppi } from '../components/sections/Gruppi'
 
-// La carta dei vini entra nel menu digitale come categoria a sé (prima delle bevande).
-const winesCategory: MenuCategory = {
-  id: 'vini',
-  title: 'Vini',
-  blurb: 'Le etichette della nostra cantina. Chiedi in sala la carta completa.',
-  groups: (['Bollicine', 'Bianco', 'Rosso'] as const).map((type) => ({
-    label: type === 'Bianco' ? 'Bianchi' : type === 'Rosso' ? 'Rossi' : type,
-    items: wines
-      .filter((w) => w.type === type)
-      .map((w) => ({ name: w.name, description: `${w.producer} · ${w.origin}` })),
-  })),
+const categories: MenuCategory[] = menu
+
+const icons: Record<string, LucideIcon> = {
+  antipasti: UtensilsCrossed,
+  primi: Wheat,
+  griglia: Beef,
+  pesce: Fish,
+  insalatone: Salad,
+  pizze: Pizza,
+  contorni: Carrot,
+  dessert: CakeSlice,
+  vini: Wine,
+  bevande: Coffee,
 }
-const bevandeIndex = menu.findIndex((c) => c.id === 'bevande')
-const categories: MenuCategory[] = [...menu.slice(0, bevandeIndex), winesCategory, ...menu.slice(bevandeIndex)]
 
 const tagStyle: Record<NonNullable<MenuItem['tag']>, string> = {
   specialità: 'bg-red text-cream',
@@ -45,7 +45,7 @@ function Item({ item }: { item: MenuItem }) {
             </>
           )}
         </div>
-        {item.description && <p className="mt-0.5 text-sm leading-snug text-ink/60">{item.description}</p>}
+        {item.description && <p className="mt-0.5 font-serif text-[14px] italic leading-snug text-ink/60">{item.description}</p>}
         {item.tag && (
           <span className={`mt-1.5 inline-block rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${tagStyle[item.tag]}`}>
             {item.tag}
@@ -76,7 +76,7 @@ export function MenuPage() {
   }, [query])
 
   // chip: le categorie + il menù delle feste (nascosto durante la ricerca)
-  const chips = [...filtered.map((c) => ({ id: c.id, title: c.title })), ...(query ? [] : [{ id: 'feste', title: 'Menù delle feste' }])]
+  const chips = [...filtered.map((c) => ({ id: c.id, title: c.title })), ...(query ? [] : [{ id: 'gruppi', title: 'Menu per gruppi' }, { id: 'feste', title: 'Menù delle feste' }])]
 
   const resultCount = filtered.reduce((n, c) => n + c.groups.reduce((m, g) => m + g.items.length, 0), 0)
 
@@ -92,7 +92,7 @@ export function MenuPage() {
   // Deep link: /menu#pizze apre direttamente la sezione pizze.
   useEffect(() => {
     const hash = window.location.hash.replace('#', '')
-    if (hash && (hash === 'feste' || categories.some((c) => c.id === hash))) {
+    if (hash && (hash === 'feste' || hash === 'gruppi' || categories.some((c) => c.id === hash))) {
       const t = window.setTimeout(() => scrollToCategory(hash, false), 80)
       return () => window.clearTimeout(t)
     }
@@ -132,7 +132,7 @@ export function MenuPage() {
     <>
       <Helmet>
         <title>Menu | Le Rose 2 — Ristorante e Pizzeria</title>
-        <meta name="description" content="Il menu digitale di Le Rose 2: antipasti di terra e di mare, primi, pesce fresco, carne alla griglia, pizze, contorni, dessert e vini." />
+        <meta name="description" content="Il menu completo di Le Rose 2 con tutti i prezzi: antipasti, primi, pesce, carne alla griglia, oltre 50 pizze, insalatone, dolci, vini e menu per gruppi." />
       </Helmet>
 
       <header className="relative overflow-hidden bg-ink texture-wood px-4 pb-8 pt-28 text-center text-cream md:pb-12 md:pt-36">
@@ -147,7 +147,7 @@ export function MenuPage() {
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Cerca un piatto: scoglio, pizza, fiorentina…"
+            placeholder="Cerca un piatto: scoglio, pizza, tortelloni…"
             className="w-full rounded-full bg-cream py-3.5 pl-11 pr-11 text-[16px] text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-gold"
           />
           {query && (
@@ -184,30 +184,54 @@ export function MenuPage() {
           </p>
         )}
 
-        {filtered.map((cat) => (
-          <div key={cat.id} id={`cat-${cat.id}`} className="scroll-mt-[140px] pt-6">
-            <div className="mb-2 flex items-end justify-between gap-3 border-b-2 border-ink pb-2">
-              <h2 className="font-retro text-3xl uppercase tracking-wide md:text-4xl">{cat.title}</h2>
-            </div>
-            {cat.blurb && <p className="mb-2 text-sm italic text-ink/55">{cat.blurb}</p>}
+        {filtered.map((cat) => {
+          const Icon = icons[cat.id] ?? UtensilsCrossed
+          return (
+            <div key={cat.id} id={`cat-${cat.id}`} className="scroll-mt-[140px] pt-6">
+              <div className="overflow-hidden rounded-[1.75rem] bg-white shadow-warm ring-1 ring-ink/5">
+                <div className="gingham-strip" />
+                <div className="px-5 pb-3 pt-6 md:px-9 md:pt-8">
+                  <div className="flex items-center gap-3 md:gap-4">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red text-cream shadow-cta md:h-14 md:w-14">
+                      <Icon size={24} />
+                    </span>
+                    <div className="min-w-0">
+                      <h2 className="font-retro text-3xl uppercase leading-none tracking-wide md:text-4xl">{cat.title}</h2>
+                      {cat.blurb && <p className="mt-1.5 text-sm italic leading-snug text-ink/55">{cat.blurb}</p>}
+                    </div>
+                  </div>
 
-            {cat.groups.map((group, gi) => (
-              <div key={gi} className="mb-4">
-                {group.label && (
-                  <h3 className="mt-4 text-xs font-bold uppercase tracking-[0.25em] text-red">{group.label}</h3>
-                )}
-                <ul className="md:grid md:grid-cols-2 md:gap-x-8">
-                  {group.items.map((item) => (
-                    <Item key={item.name} item={item} />
+                  {cat.groups.map((group, gi) => (
+                    <div key={gi} className="mt-5">
+                      {group.label && (
+                        <div className="flex items-center gap-3">
+                          <h3 className="whitespace-nowrap font-script text-3xl leading-none text-red-deep">{group.label}</h3>
+                          <span className="h-px flex-1 bg-gradient-to-r from-red/30 to-transparent" />
+                        </div>
+                      )}
+                      {group.note && (
+                        <p className="mt-2 inline-block rounded-full bg-gold/15 px-3 py-1 text-xs font-semibold text-ink/70">
+                          + {group.note}
+                        </p>
+                      )}
+                      <ul className="md:grid md:grid-cols-2 md:gap-x-10">
+                        {group.items.map((item) => (
+                          <Item key={item.name} item={item} />
+                        ))}
+                      </ul>
+                    </div>
                   ))}
-                </ul>
+
+                  {cat.note && !query && <p className="mb-2 mt-4 border-t border-dashed border-ink/10 pt-3 text-xs italic text-ink/45">N.B. {cat.note}</p>}
+                </div>
+                <div className="h-3" />
               </div>
-            ))}
-          </div>
-        ))}
+            </div>
+          )
+        })}
 
         <div className="mt-10 space-y-1 text-center text-xs text-ink/50">
-          <p>s.q. = secondo quotazione del pescato del giorno · coperto e servizio come da carta in sala.</p>
+          <p>s.q. = secondo quotazione del pescato del giorno · coperto {coperto} a persona.</p>
           <p>Allergie o intolleranze? Chiedi al personale: ti indicheremo gli allergeni di ogni piatto.</p>
         </div>
 
@@ -220,9 +244,14 @@ export function MenuPage() {
       </section>
 
       {!query && (
-        <div id="cat-feste" className="scroll-mt-[120px]">
-          <Feste />
-        </div>
+        <>
+          <div id="cat-gruppi" className="scroll-mt-[120px] pb-8">
+            <Gruppi />
+          </div>
+          <div id="cat-feste" className="scroll-mt-[120px]">
+            <Feste />
+          </div>
+        </>
       )}
     </>
   )
